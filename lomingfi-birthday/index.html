@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOMINGFI — The Legend of Dragon Raja</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- BACKGROUND CANVAS -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- PARTICLE OVERLAY FOR EFFECTS -->
+  <canvas id="particle-overlay"></canvas>
+
+  <!-- EXPLOSION FLASH -->
+  <div class="explosion-flash" id="explosion-flash"></div>
+
+  <!-- DRAGON SILHOUETTE -->
+  <div class="dragon-silhouette" id="dragon-silhouette">
+    <svg viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M600 500 Q650 400 700 350 Q750 300 780 250 Q800 200 750 180 Q700 160 650 200 Q600 240 580 300 Q560 360 550 420 Q540 480 600 500Z" fill="url(#dragonGrad)" opacity="0.6"/>
+      <path d="M580 300 Q520 250 480 280 Q440 310 450 360 Q460 410 500 400 Q540 390 560 350" fill="url(#dragonGrad)" opacity="0.4"/>
+      <path d="M480 280 Q400 220 350 260 Q300 300 320 360 Q340 420 400 400 Q460 380 480 320" fill="url(#dragonGrad)" opacity="0.3"/>
+      <defs>
+        <linearGradient id="dragonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#ff006e;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#3a86ff;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- ==================== CINEMATIC INTRO ==================== -->
+  <div id="cinematic-container">
+    <button class="skip-btn" onclick="skipIntro()">SKIP INTRO [ESC]</button>
+
+    <!-- SCENE 01: THE VOID -->
+    <div class="scene active" id="scene-01">
+      <div class="cinematic-text">
+        <p class="whisper" style="animation-delay: 2s;">"In every generation..."</p>
+        <p class="whisper" style="animation-delay: 6s;">"There are those who follow legends..."</p>
+        <p class="whisper" style="animation-delay: 10s;">"And those..."</p>
+        <p class="whisper" style="animation-delay: 14s; color: var(--crystal-blue); font-weight: 700;">"Who become one."</p>
+      </div>
+    </div>
+
+    <!-- SCENE 02: THE AWAKENING -->
+    <div class="scene" id="scene-02">
+      <div class="crystal-prison">
+        <div class="crystal-prison-inner"></div>
+      </div>
+      <p class="cinematic-text whisper" style="margin-top: 40px; animation-delay: 2s;">"For years... His name remained hidden."</p>
+    </div>
+
+    <!-- SCENE 03: THE NAME -->
+    <div class="scene" id="scene-03">
+      <div style="display: flex; gap: 10px;">
+        <span class="crystal-letter" style="animation-delay: 0s;">L</span>
+        <span class="crystal-letter" style="animation-delay: 0.5s;">O</span>
+        <span class="crystal-letter" style="animation-delay: 1s;">M</span>
+        <span class="crystal-letter" style="animation-delay: 1.5s;">I</span>
+        <span class="crystal-letter" style="animation-delay: 2s;">N</span>
+        <span class="crystal-letter" style="animation-delay: 2.5s;">G</span>
+        <span class="crystal-letter" style="animation-delay: 3s;">F</span>
+        <span class="crystal-letter" style="animation-delay: 3.5s;">I</span>
+      </div>
+      <div class="dragon-eye" style="margin-top: 40px;"></div>
+      <p class="cinematic-text whisper" style="margin-top: 30px; animation-delay: 5s;">"A name once whispered only in legends..."</p>
+      <p class="cinematic-text" style="font-size: 2rem; color: var(--gold); margin-top: 20px; animation: fadeIn 2s ease 7s forwards; opacity: 0;">LOMINGFI</p>
+    </div>
+
+    <!-- SCENE 04: THE DRAGON AWAKENS -->
+    <div class="scene" id="scene-04">
+      <div class="scene-04-bg">
+        <div class="scene-04-line"></div>
+        <div class="scene-04-ring"></div>
+      </div>
+      <p class="cinematic-text" style="font-size: 2rem; letter-spacing: 8px; animation: fadeInUp 2s ease 1s forwards; opacity: 0;">THE DRAGON HAS AWAKENED</p>
+      <p class="cinematic-text whisper" style="margin-top: 20px; animation-delay: 4s;">But tonight... We are not here to fight.</p>
+    </div>
+
+    <!-- SCENE 05: THE SECRET REVEAL -->
+    <div class="scene" id="scene-05">
+      <div class="scan-line"></div>
+      <p class="scan-text">SCANNING...</p>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div class="scan-results">
+        <p class="scan-text" style="color: var(--violet); margin-bottom: 10px;">SUBJECT: AHMED</p>
+        <p class="scan-text" style="color: var(--gold); margin-bottom: 10px;">CODENAME: LOMINGFI</p>
+        <p class="scan-text" style="color: var(--cyan); font-size: 1.2rem;">STATUS: LEGENDARY</p>
+      </div>
+      <p class="cinematic-text whisper" style="margin-top: 30px; animation-delay: 4s; color: var(--crystal-blue);">"Welcome back, LOMINGFI."</p>
+    </div>
+
+    <!-- SCENE 06: THE BIRTHDAY REVEAL -->
+    <div class="scene" id="scene-06">
+      <p class="cinematic-text scene-06-title">HAPPY BIRTHDAY</p>
+      <p class="cinematic-text scene-06-name">AHMED</p>
+      <p class="cinematic-text scene-06-nickname">LOMINGFI 👑🐉</p>
+    </div>
+
+    <!-- SCENE 07: THE CAKE -->
+    <div class="scene" id="scene-07">
+      <div class="cake-container" style="transform: scale(0.8);">
+        <div class="cake-base"></div>
+        <div class="cake-mid"></div>
+        <div class="cake-top"></div>
+        <div class="candle" id="candle-1"></div>
+        <div class="candle" id="candle-2"></div>
+        <div class="candle" id="candle-3"></div>
+        <div class="cake-orbiter" style="animation-delay: 0s;"></div>
+        <div class="cake-orbiter" style="animation-delay: -1.3s; animation-duration: 5s;"></div>
+        <div class="cake-orbiter" style="animation-delay: -2.6s; animation-duration: 6s;"></div>
+      </div>
+      <p class="cinematic-text" style="margin-top: 30px; color: var(--crystal-blue); letter-spacing: 4px; animation: fadeIn 2s ease 1s forwards; opacity: 0;">THE LEGEND HAS GROWN ANOTHER YEAR</p>
+    </div>
+
+    <!-- SCENE 08: THE LEGENDARY MESSAGE -->
+    <div class="scene" id="scene-08">
+      <div class="cinematic-text" style="max-width: 800px; padding: 0 20px;">
+        <p class="whisper" style="animation-delay: 1s;">"Some people celebrate another year..."</p>
+        <p class="whisper" style="animation-delay: 5s;">"Others become stronger with every year."</p>
+        <p class="whisper" style="animation-delay: 9s;">"Some names are forgotten."</p>
+        <p class="whisper" style="animation-delay: 13s; color: var(--gold); font-size: 1.2rem;">"Others... Become legends."</p>
+        <p class="cinematic-text" style="font-size: 1.5rem; margin-top: 40px; color: var(--crystal-blue); letter-spacing: 6px; animation: fadeInUp 2s ease 16s forwards; opacity: 0;">TODAY WE CELEBRATE THE EXISTENCE OF A LEGEND</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN WEBSITE ==================== -->
+  <div id="main-website">
+
+    <!-- NAVIGATION -->
+    <nav class="main-nav">
+      <div class="nav-logo">LOMINGFI</div>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#birthday">Celebration</a></li>
+        <li><a href="#chat">Messages</a></li>
+        <li><a href="#gifts">Gifts</a></li>
+        <li><a href="#timeline">Story</a></li>
+        <li><a href="#games">Playground</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="crystal-portal"></div>
+      <div class="hero-content" id="hero-content">
+        <p class="hero-subtitle">THE LEGEND OF DRAGON RAJA</p>
+        <h1 class="hero-name" id="hero-name">
+          <span class="char" style="animation-delay: 0s;">A</span>
+          <span class="char" style="animation-delay: 0.1s;">H</span>
+          <span class="char" style="animation-delay: 0.2s;">M</span>
+          <span class="char" style="animation-delay: 0.3s;">E</span>
+          <span class="char" style="animation-delay: 0.4s;">D</span>
+        </h1>
+        <p class="hero-nickname">LOMINGFI</p>
+        <p class="hero-tagline">Welcome to the Crystal Palace</p>
+      </div>
+    </section>
+
+    <!-- BIRTHDAY CAKE SECTION -->
+    <section class="cake-section" id="birthday">
+      <div class="section-header">
+        <span class="section-label">The Celebration</span>
+        <h2 class="section-title">A Legend's Birthday</h2>
+      </div>
+
+      <div class="cake-container" id="main-cake">
+        <div class="cake-base"></div>
+        <div class="cake-mid"></div>
+        <div class="cake-top"></div>
+        <div class="candle" id="main-candle-1"></div>
+        <div class="candle" id="main-candle-2"></div>
+        <div class="candle" id="main-candle-3"></div>
+        <div class="cake-orbiter" style="animation-delay: 0s;"></div>
+        <div class="cake-orbiter" style="animation-delay: -1.3s; animation-duration: 5s;"></div>
+        <div class="cake-orbiter" style="animation-delay: -2.6s; animation-duration: 6s;"></div>
+      </div>
+
+      <div class="countdown-display" id="countdown">15</div>
+
+      <div class="birthday-message-reveal" id="birthday-reveal">
+        <h2 class="birthday-title">🎉 HAPPY BIRTHDAY AHMED 🎉</h2>
+        <p class="birthday-arabic">
+          اليوم لا نحتفل فقط بعيد ميلاد شخص...<br>
+          اليوم نحتفل بولادة أسطورة.
+        </p>
+        <p class="birthday-legend">HAPPY BIRTHDAY, LOMINGFI 👑🐉</p>
+      </div>
+    </section>
+
+    <!-- CHAT SECTION -->
+    <section class="chat-section" id="chat">
+      <div class="section-header">
+        <span class="section-label">Birthday Messages</span>
+        <h2 class="section-title">Send Your Blessing</h2>
+      </div>
+
+      <div class="glass-panel crystal-border chat-container">
+        <div class="chat-header">
+          <div class="chat-avatar">LF</div>
+          <div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 0.9rem;">LOMINGFI</div>
+            <div class="chat-status"><span class="status-dot"></span> Online — Crystal Palace</div>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <div class="message message-incoming">
+            <div class="message-author">System</div>
+            <div>Welcome to the Legend's Birthday Chat. Send your blessings to LOMINGFI! 🐉✨</div>
+            <div class="message-time">Now</div>
+            <div class="reaction-bar">
+              <button class="reaction-btn" onclick="addReaction(this)">❤️</button>
+              <button class="reaction-btn" onclick="addReaction(this)">🔥</button>
+              <button class="reaction-btn" onclick="addReaction(this)">🎉</button>
+              <button class="reaction-btn" onclick="addReaction(this)">👑</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="typing-indicator" id="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="chat-input" placeholder="Write your blessing..." onkeypress="handleChatKey(event)">
+          <button class="send-blessing-btn" onclick="sendMessage()">✨ Send Blessing</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MYSTERY GIFT SECTION -->
+    <section class="gift-section" id="gifts">
+      <div class="section-header">
+        <span class="section-label">Legendary Gifts</span>
+        <h2 class="section-title">Mystery Crystal Box</h2>
+      </div>
+
+      <div class="gift-box" id="gift-box" onclick="openGift()">
+        <div class="gift-crystal">🎁</div>
+      </div>
+
+      <div class="glass-panel crystal-border gift-message" id="gift-message">
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 15px;">✨ A Legendary Blessing ✨</h3>
+        <p id="gift-text" style="color: rgba(255,255,255,0.9); line-height: 1.8; font-size: 1.1rem;"></p>
+      </div>
+    </section>
+
+    <!-- DRAGON MODE SECTION -->
+    <section class="dragon-mode-section" id="dragon">
+      <div class="section-header">
+        <span class="section-label">Dragon Raja</span>
+        <h2 class="section-title">Dragon Mode</h2>
+      </div>
+
+      <p style="color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto 30px; line-height: 1.8;">
+        Activate the ancient power. Transform the Crystal Palace into the Dragon's Domain.
+      </p>
+
+      <div class="dragon-toggle" id="dragon-toggle" onclick="toggleDragonMode()">
+        <div class="dragon-toggle-knob"></div>
+      </div>
+
+      <p id="dragon-status" style="font-family: 'Orbitron', sans-serif; color: var(--crystal-blue); letter-spacing: 2px; margin-top: 20px;">DRAGON MODE: OFFLINE</p>
+    </section>
+
+    <!-- TIMELINE SECTION -->
+    <section class="timeline-section" id="timeline">
+      <div class="section-header">
+        <span class="section-label">The Journey</span>
+        <h2 class="section-title">Memory Timeline</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="glass-panel crystal-border timeline-card">
+            <div class="timeline-date">YEAR ONE</div>
+            <div class="timeline-title">The Awakening</div>
+            <div class="timeline-desc">A legend was born. The stars aligned and the dragons whispered his name for the first time.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="glass-panel crystal-border timeline-card">
+            <div class="timeline-date">THE JOURNEY</div>
+            <div class="timeline-title">Trials of Fire</div>
+            <div class="timeline-desc">Through challenges and battles, LOMINGFI grew stronger. Every obstacle became a stepping stone to greatness.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="glass-panel crystal-border timeline-card">
+            <div class="timeline-date">THE ALLIANCE</div>
+            <div class="timeline-title">Brotherhood of Legends</div>
+            <div class="timeline-desc">Friends gathered. Allies formed. The legend wasn't walking alone anymore — an empire was building around him.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="glass-panel crystal-border timeline-card">
+            <div class="timeline-date">TODAY</div>
+            <div class="timeline-title">The Crystal Palace</div>
+            <div class="timeline-desc">Another year of legend. Another chapter written in the stars. The dragon awakens once more.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAMES SECTION -->
+    <section class="games-section" id="games">
+      <div class="section-header">
+        <span class="section-label">Playground</span>
+        <h2 class="section-title">Birthday Challenges</h2>
+      </div>
+
+      <div class="games-grid">
+        <div class="glass-panel crystal-border game-card" onclick="startCrystalCatch()">
+          <span class="game-icon">💎</span>
+          <h3>Catch the Crystals</h3>
+          <p>Collect as many floating crystals as you can before time runs out!</p>
+          <div class="game-canvas" id="crystal-game"></div>
+        </div>
+
+        <div class="glass-panel crystal-border game-card" onclick="startFindDragon()">
+          <span class="game-icon">🐉</span>
+          <h3>Find the Hidden Dragon</h3>
+          <p>The ancient dragon is hiding among the stars. Can you find it?</p>
+          <div class="game-canvas" id="dragon-game"></div>
+        </div>
+
+        <div class="glass-panel crystal-border game-card" onclick="startCrownClick()">
+          <span class="game-icon">👑</span>
+          <h3>The Legendary Crown</h3>
+          <p>Click the crown as fast as you can to claim your royal title!</p>
+          <div class="game-canvas" id="crown-game"></div>
+        </div>
+
+        <div class="glass-panel crystal-border game-card" onclick="startEnergyCollect()">
+          <span class="game-icon">⚡</span>
+          <h3>Collect Magical Energy</h3>
+          <p>Gather magical energy orbs to power up the Crystal Palace!</p>
+          <div class="game-canvas" id="energy-game"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH / TERMINAL SECTION -->
+    <section class="search-section" id="search">
+      <div class="section-header">
+        <span class="section-label">Navigation</span>
+        <h2 class="section-title">Birthday Universe Terminal</h2>
+      </div>
+
+      <div class="glass-panel crystal-border terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span style="margin-left: 10px; font-size: 0.8rem; color: rgba(255,255,255,0.5);">LOMINGFI-OS v9.1</span>
+        </div>
+        <div class="terminal-body">
+          <div id="terminal-output">
+            <div>> System initialized...</div>
+            <div>> Crystal Palace online.</div>
+            <div>> Welcome, Legend.</div>
+          </div>
+          <div class="terminal-input-line">
+            <span class="terminal-prompt">lomingfi@palace:~$</span>
+            <input type="text" class="terminal-input" id="terminal-input" placeholder="Search the Birthday Universe..." onkeypress="handleTerminalKey(event)" autocomplete="off">
+            <span class="terminal-cursor"></span>
+          </div>
+        </div>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="text-align: center; padding: 60px 20px; border-top: 1px solid rgba(0,212,255,0.1);">
+      <p style="font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--crystal-blue); margin-bottom: 10px;">LOMINGFI</p>
+      <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">The Legend of Dragon Raja 👑🐉</p>
+      <p style="color: rgba(255,255,255,0.3); font-size: 0.8rem; margin-top: 20px;">Crafted with crystal magic for Ahmed</p>
+    </footer>
+
+  </div>
+
+  <!-- MUSIC PLAYER -->
+  <div class="glass-panel crystal-border music-player" id="music-player">
+    <div class="music-visualizer" id="visualizer">
+      <div class="viz-bar" style="height: 10px;"></div>
+      <div class="viz-bar" style="height: 20px;"></div>
+      <div class="viz-bar" style="height: 15px;"></div>
+      <div class="viz-bar" style="height: 25px;"></div>
+      <div class="viz-bar" style="height: 12px;"></div>
+      <div class="viz-bar" style="height: 18px;"></div>
+      <div class="viz-bar" style="height: 22px;"></div>
+      <div class="viz-bar" style="height: 14px;"></div>
+    </div>
+    <div class="music-info">
+      <div class="music-title">CRYSTAL PALACE</div>
+      <div class="music-artist">Legendary Ambient</div>
+    </div>
+    <div class="music-controls">
+      <button class="music-btn" id="play-btn" onclick="toggleMusic()">▶</button>
+      <input type="range" class="volume-slider" min="0" max="100" value="50" onchange="setVolume(this.value)">
+    </div>
+  </div>
+
+  <!-- AI ASSISTANT -->
+  <div class="glass-panel crystal-border ai-assistant" id="ai-assistant">
+    <div class="ai-text" id="ai-text"></div>
+  </div>
+
+  <!-- ACHIEVEMENT POPUP -->
+  <div class="achievement" id="achievement">
+    <div class="achievement-icon" id="achievement-icon">🏆</div>
+    <div class="achievement-text">
+      <div class="achievement-title" id="achievement-title">Achievement Unlocked!</div>
+      <div class="achievement-desc" id="achievement-desc">You did something legendary!</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
